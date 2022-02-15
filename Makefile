@@ -909,7 +909,7 @@ $(EE_ASM_DIR)logo.s: gfx/logo.png | $(EE_ASM_DIR)
 $(EE_ASM_DIR)case.s: gfx/case.png | $(EE_ASM_DIR)
 	$(BIN2S) $< $@ case_png
 
-$(EE_ASM_DIR)poeveticanew.s: thirdparty/PoeVeticaNew.ttf | $(EE_ASM_DIR)
+$(EE_ASM_DIR)poeveticanew.s: thirdparty/font_TChinese.ttf | $(EE_ASM_DIR)
 	$(BIN2S) $< $@ poeveticanew_raw
 
 $(EE_ASM_DIR)icon_sys.s: gfx/icon.sys | $(EE_ASM_DIR)
