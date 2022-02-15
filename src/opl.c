@@ -1721,8 +1721,8 @@ static void init(void)
     ioRegisterHandler(IO_MENU_UPDATE_DEFFERED, &menuDeferredUpdate);
     cacheInit();
 
-    gSelectButton = (InitConsoleRegionData() == CONSOLE_REGION_JAPAN) ? KEY_CIRCLE : KEY_CROSS;
-
+    //gSelectButton = (InitConsoleRegionData() == CONSOLE_REGION_JAPAN) ? KEY_CIRCLE : KEY_CROSS;
+    gSelectButton = KEY_CIRCLE;
     // try to restore config
     _loadConfig();
 
