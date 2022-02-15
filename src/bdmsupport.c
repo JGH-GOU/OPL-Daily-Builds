@@ -210,7 +210,8 @@ static void *bdmGetGame(int id)
 
 static char *bdmGetGameName(int id)
 {
-    return bdmGames[id].name;
+    //return bdmGames[id].name;
+	return bdmGames[id].displayName;
 }
 
 static int bdmGetGameNameLength(int id)

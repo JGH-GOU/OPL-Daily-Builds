@@ -10,6 +10,7 @@
 #include "include/pggsm.h"
 #include "include/cheatman.h"
 #include "include/ps2cnf.h"
+#include "include/lxml.h"
 
 #define NEWLIB_PORT_AWARE
 #include <fileXio_rpc.h> // fileXioMount("iso:", ***), fileXioUmount("iso:")
@@ -375,6 +376,24 @@ static int scanForISO(char *path, char type, struct game_list_t **glist)
     return count;
 }
 
+char* FindTitleByName(XMLNodeList* games, char* name)
+{
+	if(games == NULL) return name;
+	
+	for (int i = 0; i < games->size; i++) 
+	{
+		XMLNode* GameNode = XMLNodeList_at(games, i);
+		XMLNode* NameNode = First_children(GameNode, "name");
+		if (!strcmp(NameNode->inner_text, name))
+		{
+			XMLNode* TitleNode = First_children(GameNode, "title");
+			return TitleNode->inner_text;
+		}
+	}
+	
+	return name;
+}
+
 int sbReadList(base_game_info_t **list, const char *prefix, int *fsize, int *gamecount)
 {
     int fd, size, id = 0, result;
@@ -471,7 +490,28 @@ int sbReadList(base_game_info_t **list, const char *prefix, int *fsize, int *gam
         count = 0;
 
     if (count > 0)
-        *gamecount = count;
+	{
+		snprintf(path, sizeof(path), "%sgamelist.xml", prefix);
+		XMLDocument doc;
+		XMLNodeList* gls = NULL;
+		if (XMLDocument_load(&doc, path)) {
+			XMLNode* gameListNode = XMLNode_child(doc.root, 0);
+			if(gameListNode) gls = XMLNode_children(gameListNode, "game");
+		}		
+        int idx = 0;
+		for (idx = 0; idx < count; idx++) {
+			base_game_info_t *game = &(*list)[idx];
+			char* title = FindTitleByName(gls, game->name);
+			size_t length = strlen(title);
+			if(length > ISO_GAME_DS_NAME_MAX) length = ISO_GAME_DS_NAME_MAX;
+			strncpy(game->displayName, title, length);
+            game->displayName[length] = '\0';
+		}
+		if(gls) XMLDocument_free(&doc);
+		
+		 *gamecount = count;
+	}
+       
 
     return count;
 }

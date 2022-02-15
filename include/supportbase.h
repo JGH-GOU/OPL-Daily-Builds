@@ -5,6 +5,7 @@
 #define ISO_GAME_NAME_MAX      64
 #define ISO_GAME_EXTENSION_MAX 4
 #define GAME_STARTUP_MAX       12
+#define ISO_GAME_DS_NAME_MAX   128
 
 #define ISO_GAME_FNAME_MAX (ISO_GAME_NAME_MAX + ISO_GAME_EXTENSION_MAX)
 
@@ -23,6 +24,7 @@ typedef struct
     u8 media;
     u8 format;
     u32 sizeMB;
+	char displayName[ISO_GAME_DS_NAME_MAX + 1];
 } base_game_info_t;
 
 typedef struct
