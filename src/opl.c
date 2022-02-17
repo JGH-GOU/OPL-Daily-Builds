@@ -1567,7 +1567,7 @@ void deinit(int exception, int modeSelected)
 void setDefaultColors(void)
 {
     //START of OPL_DB tweaks
-    gDefaultBgColor[0] = 0x00;
+    /*gDefaultBgColor[0] = 0x00;
     gDefaultBgColor[1] = 0x00;
     gDefaultBgColor[2] = 0x00;
 
@@ -1581,8 +1581,24 @@ void setDefaultColors(void)
 
     gDefaultUITextColor[0] = 0x32;
     gDefaultUITextColor[1] = 0xFF;
-    gDefaultUITextColor[2] = 0x30;
+    gDefaultUITextColor[2] = 0x30;*/
     //END of OPL_DB tweaks
+	
+	gDefaultBgColor[0] = 0x28;
+    gDefaultBgColor[1] = 0xC5;
+    gDefaultBgColor[2] = 0xF9;
+
+    gDefaultTextColor[0] = 0xFF;
+    gDefaultTextColor[1] = 0xFF;
+    gDefaultTextColor[2] = 0xFF;
+
+    gDefaultSelTextColor[0] = 0x00;
+    gDefaultSelTextColor[1] = 0xAE;
+    gDefaultSelTextColor[2] = 0xFF;
+
+    gDefaultUITextColor[0] = 0x58;
+    gDefaultUITextColor[1] = 0x68;
+    gDefaultUITextColor[2] = 0xB4;
 }
 
 static void setDefaults(void)
@@ -1647,10 +1663,10 @@ static void setDefaults(void)
     gEnableNotifications = 0;
     gEnableArt = 0;
     gWideScreen = 0;
-    gEnableSFX = 0;
-    gEnableBootSND = 0;
-    gSFXVolume = 80;
-    gBootSndVolume = 80;
+    gEnableSFX = 1;
+    gEnableBootSND = 1;
+    gSFXVolume = 100;
+    gBootSndVolume = 100;
 
     gBDMStartMode = START_MODE_DISABLED;
     gHDDStartMode = START_MODE_DISABLED;
@@ -1836,7 +1852,7 @@ int main(int argc, char *argv[])
 
     // queue deffered init which shuts down the intro screen later
     ioPutRequest(IO_CUSTOM_SIMPLEACTION, &deferredInit);
-
+	guiSplashLoop();
     guiIntroLoop();
     guiMainLoop();
 

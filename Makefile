@@ -73,7 +73,7 @@ GFX_OBJS =	usb_icon.o hdd_icon.o eth_icon.o app_icon.o elm_icon.o \
 		cross_icon.o triangle_icon.o circle_icon.o square_icon.o select_icon.o start_icon.o \
 		left_icon.o right_icon.o up_icon.o down_icon.o \
 		load0.o load1.o load2.o load3.o load4.o load5.o load6.o load7.o \
-		background.o info.o cover.o disc.o screen.o logo.o case.o background2.o \
+		background.o info.o cover.o disc.o screen.o logo.o splash.o case.o background2.o \
 		ELF.o HDL.o ISO.o UL.o CD.o DVD.o Aspect_s.o Aspect_w.o Aspect_w1.o Aspect_w2.o \
 		Device_1.o Device_2.o Device_3.o Device_4.o Device_5.o Device_6.o Device_all.o \
 		Rating_0.o Rating_1.o Rating_2.o Rating_3.o Rating_4.o Rating_5.o \
@@ -905,6 +905,9 @@ $(EE_ASM_DIR)Vmode_pal.s: gfx/Vmode_pal.png | $(EE_ASM_DIR)
 
 $(EE_ASM_DIR)logo.s: gfx/logo.png | $(EE_ASM_DIR)
 	$(BIN2S) $< $@ logo_png
+	
+$(EE_ASM_DIR)splash.s: gfx/splash.png | $(EE_ASM_DIR)
+	$(BIN2S) $< $@ splash_png
 
 $(EE_ASM_DIR)case.s: gfx/case.png | $(EE_ASM_DIR)
 	$(BIN2S) $< $@ case_png

@@ -75,6 +75,9 @@ void guiLock();
 /** Unlocks gui after direct gui data updates */
 void guiUnlock();
 
+/** invokes the splash loop */
+void guiSplashLoop();
+
 /** invokes the intro loop */
 void guiIntroLoop();
 

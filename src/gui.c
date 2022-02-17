@@ -199,11 +199,11 @@ void guiEndFrame(void)
 
 void guiShowAbout()
 {
-    char OPLVersion[40];
+    char OPLVersion[80];
     char OPLBuildDetails[40];
 
     //START of OPL_DB tweaks
-    snprintf(OPLVersion, sizeof(OPLVersion), "OPL %s", OPL_VERSION);
+    snprintf(OPLVersion, sizeof(OPLVersion), "OPL %s %s", OPL_VERSION, "(繁體中文測試版 By J.G.H)");
     //END of OPL_DB tweaks
     diaSetLabel(diaAbout, ABOUT_TITLE, OPLVersion);
 
@@ -1032,12 +1032,12 @@ static void guiDrawBusy(int alpha)
 
 static void guiRenderGreeting(int alpha)
 {
-    u64 mycolor = GS_SETREG_RGBA(0x1C, 0x1C, 0x1C, alpha);
+    u64 mycolor = GS_SETREG_RGBA(0x00, 0x00, 0x00, alpha);
     rmDrawRect(0, 0, screenWidth, screenHeight, mycolor);
 
     GSTEXTURE *logo = thmGetTexture(LOGO_PICTURE);
     if (logo) {
-        mycolor = GS_SETREG_RGBA(0x80, 0x80, 0x80, alpha);
+        mycolor = GS_SETREG_RGBA(0xFF, 0xFF, 0xFF, alpha);
         rmDrawPixmap(logo, screenWidth >> 1, gTheme->usedHeight >> 1, ALIGN_CENTER, logo->Width, logo->Height, SCALING_RATIO, mycolor);
     }
 }
@@ -1444,17 +1444,106 @@ static void guiShow()
         screenHandler->renderScreen();
 }
 
+
+static void guiRenderSplash(int alpha, int which)
+{
+    u64 mycolor = GS_SETREG_RGBA(0x00, 0x00, 0x00, 0xFF);
+    rmDrawRect(0, 0, screenWidth, screenHeight, mycolor);
+
+    GSTEXTURE *logo = thmGetTexture(which == 0 ? SPLASH_PICTURE: LOGO_PICTURE);
+    if (logo) {
+        mycolor = GS_SETREG_RGBA(0xFF, 0xFF, 0xFF, alpha);
+        rmDrawPixmap(logo, screenWidth >> 1, gTheme->usedHeight >> 1, ALIGN_CENTER, logo->Width, logo->Height, SCALING_RATIO, mycolor);
+    }
+}
+
+void guiSplashLoop(void)
+{
+	int const Sec = 60;
+	int alphaMax = 0xFF;
+	int dsplayDuration;
+	int alpha = 0;
+	int sp = 2;
+	int st = 0;
+	int run = 1;
+	while(run)
+	{
+		guiStartFrame();
+		if(st == 0)
+		{
+			guiRenderSplash(alpha, 0);
+			alpha += sp;
+			if(alpha > alphaMax)
+			{				
+				alpha = alphaMax;
+				dsplayDuration = Sec*2;
+				st = 1;
+			}
+		}
+		else if(st == 1)
+		{
+			guiRenderSplash(alpha, 0);
+			dsplayDuration --;
+			if(dsplayDuration <= 0)
+			{
+				st = 2;				
+			}
+		}
+        else if(st == 2)
+		{
+			guiRenderSplash(alpha, 0);
+			alpha -= sp;
+			if(alpha <= 0)
+			{
+				alpha = 0;
+				dsplayDuration = Sec;
+				st = 3;
+			}
+		}
+		else if(st == 3)
+		{
+			guiRenderSplash(alpha, 0);
+			dsplayDuration --;
+			if(dsplayDuration <= 0)
+			{
+				st = 4;		
+			}
+		}
+		else if(st == 4)
+		{
+			guiRenderSplash(alpha, 1);
+			alpha += sp;
+			if(alpha > alphaMax)
+			{		
+				alpha = alphaMax;
+				dsplayDuration = Sec*2;
+				st = 5;				
+			}			
+		}
+		else if(st == 5)
+		{
+			guiRenderSplash(alpha, 1);
+			dsplayDuration --;
+			if(dsplayDuration <= 0)
+			{
+				run = 0;
+			}
+		}
+		guiEndFrame();
+	}	
+}
+
 void guiIntroLoop(void)
 {
-    int greetingAlpha = 0x80;
-    const int fadeFrameCount = 0x80 / 2;
+    int greetingAlpha = 0xFF;
+    const int fadeFrameCount = 0xFF / 2;
     const int fadeDuration = (fadeFrameCount * 1000) / 55; // Average between 50 and 60 fps
     clock_t tFadeDelayEnd = 0;
 
     while (!endIntro) {
         guiStartFrame();
 
-        if (greetingAlpha < 0x80)
+        if (greetingAlpha < 0xFF)
             guiShow();
 
         if (greetingAlpha > 0)

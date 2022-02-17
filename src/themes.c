@@ -1308,7 +1308,8 @@ static void thmLoad(const char *themePath)
         newT->textures[i].Mem = NULL;
 
     // LOGO, loaded here to avoid flickering during startup with device in AUTO + theme set
-    texLoadInternal(&newT->textures[LOGO_PICTURE], LOGO_PICTURE);
+    texLoadInternal(&newT->textures[SPLASH_PICTURE], SPLASH_PICTURE);
+	texLoadInternal(&newT->textures[LOGO_PICTURE], LOGO_PICTURE);
 
     // First start with busy icon
     const char *themePath_temp = themePath;
